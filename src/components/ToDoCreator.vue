@@ -33,7 +33,7 @@ const createTodo = () => {
     <p v-show="todoState.invalid" class="err-msg">{{ todoState.errMsg }}</p>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .input-wrap {
     display: flex;
     transition: 250ms ease;
