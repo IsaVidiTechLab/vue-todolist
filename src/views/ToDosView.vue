@@ -15,8 +15,20 @@ const createTodo = (todo) => {
   });
 }
 
-const toggleTodoComplete = (todoPos) =>{
-  todoList.value[todoPos].isCompleted = !  todoList.value[todoPos].isCompleted
+const toggleTodoComplete = (todoPos) => {
+  todoList.value[todoPos].isCompleted = !todoList.value[todoPos].isCompleted
+}
+
+const toggleEditTodo = (todoPos) => {
+  todoList.value[todoPos].isEditing = !todoList.value[todoPos].isEditing
+}
+
+const updateTodo = (todoVal, todoPos) => {
+  todoList.value[todoPos].todo = todoVal
+}
+
+const deleteTodo = (todoId) => {
+  todoList.value = todoList.value.filter(todo => todo.id !== todoId)
 }
 
 </script>
@@ -24,11 +36,18 @@ const toggleTodoComplete = (todoPos) =>{
 <template>
   <main>
     <h1>Create Todo</h1>
-    <ToDoCreator @create-todo="createTodo"/>
+    <ToDoCreator @create-todo="createTodo" />
     <ul class="todo-list" v-if="todoList.length > 0">
-      <TodoItem v-for="(todo,index) in todoList" :todo="todo" :index="index" @toggle-complete="toggleTodoComplete" :key="todo.id"/>
+      <TodoItem v-for="(todo, index) in todoList" 
+        :todo="todo" 
+        :index="index" 
+        @toggle-complete="toggleTodoComplete"
+        @edit-todo="toggleEditTodo"
+        @update-todo="updateTodo"
+        @delete-todo="deleteTodo"
+        :key="todo.id" />
     </ul>
-    <p class="todos-msg">
+    <p class="todos-msg" v-else>
       <Icon icon="noto-v1:sad-but-relieved-face" />
       <span>You have no Todos to Complete..Have one!!</span>
     </p>
@@ -36,7 +55,7 @@ const toggleTodoComplete = (todoPos) =>{
 </template>
 
 
- 
+
 <style scoped lang="scss">
 main {
   display: flex;
