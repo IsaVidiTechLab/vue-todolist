@@ -1,17 +1,17 @@
 <script setup>
-import { reactive, defineEmits } from 'vue'
+import { reactive } from 'vue'
 import TodoButton from './TodoButton.vue';
 
 const emit = defineEmits(["create-todo"]);
 const todoState = reactive({
     todo: "",
-    invalid: null,
+    invalid: false,
     errMsg: ""
 });
 
 
 const createTodo = () => {
-    todoState.invalid = null;
+    todoState.invalid = false;
     if (todoState.todo !== "") {
         emit("create-todo", todoState.todo);
         todoState.todo = "";
@@ -28,12 +28,13 @@ const createTodo = () => {
 <template>
     <div class="input-wrap" :class="{ 'input-err': todoState.invalid }">
         <input type="text" v-model="todoState.todo">
-        <TodoButton @click="createTodo()">Create</TodoButton> 
+        <TodoButton @click="createTodo()"/> 
     </div>
     <p v-show="todoState.invalid" class="err-msg">{{ todoState.errMsg }}</p>
+    
 </template>
 
-<style scoped lang="scss">
+<style  lang="scss" scoped>
 .input-wrap {
     display: flex;
     transition: 250ms ease;
